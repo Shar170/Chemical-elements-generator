@@ -1,0 +1,6 @@
+pandas
+markovify
+networkx
+matplotlib
+streamlit
+altair
