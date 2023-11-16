@@ -1,9 +1,10 @@
 
 import streamlit as st
-
 import chem
 import widgets
+
 st.set_page_config(page_title='ChemGen', page_icon='⚗', layout='wide')
+
 st.title("Your custom, uniq chemistry!")
 number_of_elements = st.slider("Number of elements", min_value=1, max_value=100, value=50)
 
@@ -24,7 +25,7 @@ if(generate):
             widgets.show_element(element) 
     with st.expander(f'## Compounds({len(generated_compounds)})'):
         for compound in generated_compounds.values():
-            widgets.show_element(compound)
+            widgets.show_reaction(compound)
     show_new_elements = st.checkbox("Show new elements on graph?", True)
     st.markdown('## Chemistry')
     widgets.plot_chem(generated_elements, generated_compounds, show_new_elements)
