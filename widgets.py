@@ -4,6 +4,7 @@ import nx_altair as nxa
 import altair as alt
 import networkx as nx
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def rgbToHex(rgb):
@@ -98,4 +99,47 @@ def plot_chem(generated_elements : list[chem.FictionalElement], compounds : dict
 
     # Show it as an interactive plot!
     viz = viz.interactive()
-    st.altair_chart(viz)
+    _, col, _ = st.columns([1, 5, 1])
+    col.altair_chart(viz, use_container_width=True)
+
+def convert_df(df):
+   return df.to_csv(index=False).encode('utf-8')
+
+def dataframe_of_elements(generated_elements : list[chem.FictionalElement]):
+    elements = []
+    for element in generated_elements:
+        element.properties["Name"] = element.name
+        element.properties["Short_Name"] = element.short_name
+        elements.append(element.properties)
+    df = pd.DataFrame.from_dict([e.properties for e in generated_elements])
+    cols = df.columns.tolist()
+    cols = cols[-2:] + cols[:-2]
+    df = df[cols]
+    st.dataframe(df)
+    st.download_button(
+        "Download CSV",
+        convert_df(df),
+        "elements.csv",
+        "text/csv",
+        key='download-elements-csv'
+        )
+
+def dataframe_of_compounds(generated_compounds : dict[str, chem.FictionalReaction]):
+    compounds = []
+    for key, reaction in generated_compounds.items():
+        reaction.product.properties["Name"] = reaction.product.name
+        reaction.product.properties["Formula"] = f"{reaction.reactants[0].name} + {reaction.reactants[1].name} → {reaction.product.name}"
+        reaction.product.properties["Condition"] = reaction.conditions
+        compounds.append(reaction.product.properties)
+    df = pd.DataFrame.from_dict(compounds)
+    cols = df.columns.tolist()
+    cols = cols[-3:] + cols[:-3]
+    df = df[cols]
+    st.dataframe(df)
+    st.download_button(
+        "Download CSV",
+        convert_df(df),
+        "reactions.csv",
+        "text/csv",
+        key='download-reactions-csv'
+        )

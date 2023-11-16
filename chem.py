@@ -118,7 +118,7 @@ def generate_elements(num_elements : int):
             {
                 "Electroactivity": "High" if i % 2 == 0 else "Low",
                 "Magnetic_Properties": "Present" if i % 3 == 0 else "Absent",
-                "Thermal_Stability": "Stable" if i % 4 == 0 else "Unstable",
+                "Thermal_Stability": "Unstable" if i % 4 == 0 else "Stable",
                 "Chemical_Reactivity": "Reactive" if i % 5 == 0 else "Non-reactive",
                 "Crystal_Structure": "Cubic" if i % 6 == 0 else "Amorphous",
                 "Radiation": "Emits" if i % 7 == 0 else "None",
@@ -143,7 +143,7 @@ def generate_elements(num_elements : int):
 
 
 # Пример генерации новой химической реакции с обязательными условиями
-def generate_chemical_reaction(elements : list[FictionalElement], conditions_count:int = 2):
+def generate_chemical_reaction(elements : list[FictionalElement], conditions_count: list[int] = [1,2]):
     # Выбираем два случайных элемента для реакции
     if len(elements) > 2:
         reactant = random.sample(elements, 2)
@@ -170,6 +170,7 @@ def generate_chemical_reaction(elements : list[FictionalElement], conditions_cou
         "Detoxification",
         "Pure"
     ]  # Пример обязательных свойств для реакции
+    conditions_count = random.randint(conditions_count[0], conditions_count[1])
     conditions_count = min(conditions_count, len(required_conditions))
     required_conditions = random.sample(required_conditions, conditions_count)
     # Проверяем, удовлетворяют ли элементы условиям реакции
@@ -203,7 +204,7 @@ def generate_chemical_reaction(elements : list[FictionalElement], conditions_cou
         return None  #Если реакция не может протекать
 
 # Генерируем новые химические реакции с обязательными условиями
-def generate_reactions(generated_elements : list[FictionalElement], number_of_reactions:int = 0, condition_count : int =2):
+def generate_reactions(generated_elements : list[FictionalElement], number_of_reactions:int = 0, condition_count : list[int] =[1,2]):
     compounds = {}
     if number_of_reactions < 0:
         for element1 in generated_elements:
