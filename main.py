@@ -2,10 +2,17 @@
 import streamlit as st
 import chem
 import widgets
+import random
 
 st.set_page_config(page_title='ChemGen', page_icon='⚗', layout='wide')
+st.title("👨‍🔬Generate your own chemistry!")
 
-st.title("Your custom, uniq chemistry!")
+if 'uniq_id' not in st.session_state.keys():
+    st.session_state['uniq_id'] = str(int(random.random()*1000000000))
+    st.write(f"Session ID: ```{st.session_state['uniq_id']}```")
+else:
+    st.write(f"Session ID: ```{st.session_state['uniq_id']}```")
+
 number_of_elements = st.slider("Number of elements", min_value=1, max_value=100, value=50)
 
 all_reactions = st.checkbox('Generate all posible reactions', True)

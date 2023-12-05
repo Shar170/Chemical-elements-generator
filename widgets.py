@@ -5,7 +5,7 @@ import altair as alt
 import networkx as nx
 import matplotlib.pyplot as plt
 import pandas as pd
-
+import datetime as dtime
 
 def rgbToHex(rgb):
     x = ''
@@ -115,6 +115,9 @@ def dataframe_of_elements(generated_elements : list[chem.FictionalElement]):
     cols = df.columns.tolist()
     cols = cols[-2:] + cols[:-2]
     df = df[cols]
+    datetime = dtime.datetime.now().strftime("%d-%m-%Y-%H-%M-%S")
+    df.to_csv(f'results/{st.session_state["uniq_id"]}_{datetime}_elements.csv')
+
     st.dataframe(df)
     st.download_button(
         "Download CSV",
@@ -135,6 +138,10 @@ def dataframe_of_compounds(generated_compounds : dict[str, chem.FictionalReactio
     cols = df.columns.tolist()
     cols = cols[-3:] + cols[:-3]
     df = df[cols]
+    datetime = dtime.datetime.now().strftime("%d-%m-%Y-%H-%M-%S")
+    df.to_csv(f'results/{st.session_state["uniq_id"]}_{datetime}_compounds.csv')
+    
+
     st.dataframe(df)
     st.download_button(
         "Download CSV",

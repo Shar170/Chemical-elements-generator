@@ -5,6 +5,8 @@ import random
 text_model = markovify.Text([' '.join(str(x)) for x in pd.read_csv('Elements.csv')['Element'].apply(str)], state_size=2)
 exists_short_names = []
 
+
+
 def gcd(a, b):
     """
     Calculate the greatest common divisor (GCD) using Euclid's algorithm.
